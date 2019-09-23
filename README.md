@@ -65,3 +65,14 @@ Minify the JavaScript bundle for production use
 npm run minify
 ```
 
+## Customization
+
+There are currently a few values that can be changed to customize the job board.
+```
+    DOMAIN_URL
+    HEADER_TITLE
+    JOB_LIST_TITLE
+    HOMEPAGE_TITLE
+```
+These can be found in `src/shared/settings.js`
+Edit `HEADER_TITLE` to change the title on top of the website or `JOB_LIST_TITLE` to modify the text on top of the jobs' list.
