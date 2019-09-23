@@ -2,10 +2,11 @@
 
 const React = require('react');
 const JobList = require('components/JobList');
+const settings = require('shared/settings');
 
 const Homepage = React.createClass({
   statics: {
-    title: 'Oklahoma Tech Jobs',
+    title: settings.HOMEPAGE_TITLE,
     fetchData(params) {
       return JobList.fetchData(params);
     }

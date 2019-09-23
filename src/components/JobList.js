@@ -3,6 +3,7 @@
 const React = require('react');
 const JobListingRow = require('components/JobListingRow');
 const sdk = require('server/sdk');
+const settings = require('shared/settings');
 
 const JobList = React.createClass({
   statics: {
@@ -17,7 +18,7 @@ const JobList = React.createClass({
 
     return (
       <div className="job-list">
-        <h1>Oklahoma Tech Jobs</h1>
+        <h1>{settings.JOB_LIST_TITLE}</h1>
         <div className="panel panel-default">
           <div className="list-group">
             { jobs.length === 0 ? this._renderNoJobs() : undefined}
