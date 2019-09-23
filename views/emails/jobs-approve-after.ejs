@@ -1,7 +1,7 @@
 
 <h1>Job Listing Approved!</h1>
-<h2><a href="https://jobs.techlahoma.org/jobs/<%- job.id %>"><%- job.title %></a></h2>
+<h2><a href="<%- settings.DOMAIN_URL %>/jobs/<%- job.id %>"><%- job.title %></a></h2>
 
-<p>Your job listing is now live on the Techlahoma jobs website!</p>
+<p>Your job listing is now live on the website!</p>
 
 <p>Your job listing will be live for <strong><%- process.env.JOBS_DAYS_TO_EXPIRE %> days</strong> from now.</p>

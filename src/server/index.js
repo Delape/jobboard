@@ -20,6 +20,8 @@ const sharedUtils = require('shared/utils');
 const sdk = require('server/sdk');
 const auth = require('lib/auth');
 
+const settings = require('shared/settings');
+
 // Setup
 require('server/setup/mail-templates');
 
@@ -176,7 +178,8 @@ function renderComponentWithLayout(res, renderFunc, component, props = {}, layou
     title: component.title,
     js: component.js || [],
     css: component.css || [],
-    react_props: JSON.stringify(props)
+    react_props: JSON.stringify(props),
+    settings: settings,
   });
 }
 
