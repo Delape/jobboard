@@ -1,5 +1,4 @@
 .git
-.env
 node_modules
 build
 public/js/bundle.js
