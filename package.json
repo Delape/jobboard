@@ -9,7 +9,7 @@
     "build:dev": "NODE_PATH=./src NODE_ENV=development browserify src/client/index.js -o public/js/bundle.js -t [ babelify --presets [ es2015 react ] ]",
     "minify": "uglifyjs public/js/bundle.js --compress --mangle --noerr -o public/js/bundle.js",
     "start": "npm run build && npm run minify && NODE_ENV=production node src/server/index.js",
-    "start:dev": "npm run build:dev && . ./.env && nodemon --delay 2 src/server/index.js",
+    "start:dev": "npm run build:dev &&  set -o allexport .env && nodemon --delay 2 src/server/index.js",
     "watch:dev": "fsmonitor -d 'src/' '!server' npm run build:dev",
     "test": "knex seed:run && jasmine"
   },
