@@ -1,0 +1,24 @@
+version: '3'
+services:
+  web:
+    build: .
+    env_file:
+      - .env
+    command: npm run start
+    volumes:
+      - .:/usr/app/
+      - /usr/app/node_modules
+    ports:
+      - "3000:3000"
+      - "8080:8080"
+      - "80:80"
+      - "1339:1339"
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:11-alpine
+    environment:
+      - POSTGRES_USER=delape
+      - POSTGRES_DB=jobboard
+    ports:
+      - "5432:5432"
