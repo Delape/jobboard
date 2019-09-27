@@ -83,6 +83,25 @@ function findByUserId(user_id) {
     });
 }
 
+/**
+ * List all inactive jobs for given user
+ *
+ * @param {Number} user_id
+ * @return Promise
+ */
+function findInactiveByUserId(user_id) {
+  return validator.params({ user_id }, {
+      'user_id': Joi.number().required()
+    }).then(function () {
+      return knex(TABLE_NAME)
+        .where({
+            'user_id': user_id,
+            'is_live': false
+        }).orderBy('dt_expires', 'desc')
+        .then(_formatForApi);
+    });
+}
+
 let job_schema = {
   'title': Joi.string().max(60).required(),
   'location': Joi.string().max(60).required(),
@@ -285,4 +304,4 @@ function del(id) {
   });
 }
 
-module.exports = { allActive, allInactive, approve, findById, findByUserId, create, update, del };
+module.exports = { allActive, allInactive, approve, findById, findByUserId, findInactiveByUserId, create, update, del };

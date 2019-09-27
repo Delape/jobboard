@@ -13,6 +13,7 @@ const UserDashboard = React.createClass({
       return sharedUtils.promiseAll({
         jobs: sdk.jobs().findByUserId(user.id),
         all_inactive_jobs: sdk.jobs().allInactive(),
+        user_inactive_jobs: sdk.jobs().findInactiveByUserId(user.id),
       });
     }
   },
@@ -26,7 +27,9 @@ const UserDashboard = React.createClass({
         <div className="panel panel-default">
           <div className="list-group">
             { jobs.length === 0 ? this._renderNoJobs() : undefined}
-            { jobs.map(function (job) {
+            { jobs.filter(function (job) {
+                return job.is_live;
+            }).map(function (job) {
               return <JobListingRow job={job} key={'job_' + job.id} />;
             })}
           </div>
@@ -38,25 +41,30 @@ const UserDashboard = React.createClass({
 
   _renderInactiveJobs()
   {
-    let jobs = this.props.data.all_inactive_jobs || [];
-
-    if (!this.props.user || !this.props.user.is_admin) {
+    if (!this.props.user) {
       return;
     }
-
-    return (
-      <div>
-        <h1>Job Listings Awaiting Approval</h1>
-        <div className="panel panel-default">
-          <div className="list-group">
-            { jobs.length === 0 ? this._renderNoJobs() : undefined}
-            { jobs.map(function (job) {
-              return <JobListingRow job={job} key={'job_' + job.id} />;
-            })}
-          </div>
-        </div>
-      </div>
-    );
+    let jobs;
+    if (!this.props.user.is_admin) {
+        jobs = this.props.data.user_inactive_jobs || [];
+    } else {
+        jobs = this.props.data.all_inactive_jobs || [];
+    }
+    if ( jobs.length > 0 ){
+        return (
+            <div>
+                <h1>Awaiting Approval</h1>
+                <div className="panel panel-default">
+                <div className="list-group">
+                    { jobs.length === 0 ? this._renderNoJobs() : undefined}
+                    { jobs.map(function (job) {
+                    return <JobListingRow job={job} key={'job_' + job.id} />;
+                    })}
+                </div>
+                </div>
+            </div>
+        );
+    }
   },
 
   _renderNoJobs() {
