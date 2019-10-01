@@ -2,6 +2,7 @@
 
 const React = require('react');
 const config = require('shared/config');
+const settings = require('shared/settings');
 
 const JobListingRow = React.createClass({
   _renderJobImage(job) {
@@ -20,7 +21,10 @@ const JobListingRow = React.createClass({
 
   render() {
     let job = this.props.job;
-    let job_category = config.jobs.categories[job.category];
+    let job_category;
+    if (job.category && settings.DISPLAY_CATEGORIES) {
+        job_category = config.jobs.categories[job.category];
+    }
 
     return (
       <a className="list-group-item" key={'job-' +job.id} href={`/jobs/${job.id}`}>
@@ -29,7 +33,9 @@ const JobListingRow = React.createClass({
           <div className="media-body">
             <div className="pull-right">
               <span>{ job.location }</span>
-              <span className="label label-default">{ job_category }</span>
+              {job_category !== undefined &&
+                <span className="label label-default">{ job_category }</span>
+              }
             </div>
             <span className="job-company">{ job.company_name }</span>
             <h4 className="media-heading">{ job.title }</h4>
