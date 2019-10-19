@@ -102,6 +102,51 @@ function findInactiveByUserId(user_id) {
     });
 }
 
+
+/**
+ * Return all tags for given job
+ * @param {Number} job_id
+ * @return Promise
+ */
+function getJobTags(job_id) {
+    return knex.from('tags').innerJoin('jobs_tags', 'tags.id', 'jobs_tags.tag_id')
+    .where({
+        'jobs_tags.job_id': job_id
+    })
+    .orderBy('tags.dt_created', 'desc')
+    .select('tags.name', 'tags.id')
+    .then(_formatForApi);
+}
+
+/**
+ * Return all tag names for given job
+ * @param {Number} job_id
+ * @return array
+ */
+function getJobTagNames(job_id) {
+    let tags = getJobTags(job_id);
+    if(tags){
+        return tags.map((tag) => {
+            return tag.name;
+        });
+    }
+}
+
+/**
+ * Return all tags
+ * @return Promise
+ */
+function getAllTags() {
+  return knex('tags')
+    .where({
+        'is_active': true,
+    })
+    .orderBy('dt_created', 'desc')
+    .then(_formatForApi);
+}
+
+
+
 let job_schema = {
   'title': Joi.string().max(60).required(),
   'location': Joi.string().max(60).required(),
@@ -304,4 +349,4 @@ function del(id) {
   });
 }
 
-module.exports = { allActive, allInactive, approve, findById, findByUserId, findInactiveByUserId, create, update, del };
+module.exports = { allActive, allInactive, approve, findById, findByUserId, findInactiveByUserId, getJobTags, getJobTagNames, create, update, del };

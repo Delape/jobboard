@@ -23,7 +23,8 @@ const JobList = React.createClass({
           <div className="list-group">
             { jobs.length === 0 ? this._renderNoJobs() : undefined}
             { jobs.map(function (job) {
-              return <JobListingRow job={job} key={'job_' + job.id} />;
+                let tag_names = sdk.jobs().getJobTagNames(job.id);
+              return <JobListingRow job={job} key={'job_' + job.id} tag_names={tag_names} />;
             })}
           </div>
         </div>
