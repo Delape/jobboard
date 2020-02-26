@@ -30,7 +30,7 @@ const UserDashboard = React.createClass({
             { jobs.filter(function (job) {
                 return job.is_live;
             }).map(function (job) {
-              return <JobListingRow job={job} key={'job_' + job.id} />;
+                return <JobListingRow job={job} key={'job_' + job.id} />;
             })}
           </div>
         </div>
@@ -58,7 +58,7 @@ const UserDashboard = React.createClass({
                 <div className="list-group">
                     { jobs.length === 0 ? this._renderNoJobs() : undefined}
                     { jobs.map(function (job) {
-                    return <JobListingRow job={job} key={'job_' + job.id} />;
+                        return <JobListingRow job={job} key={'job_' + job.id} />;
                     })}
                 </div>
                 </div>
