@@ -151,3 +151,7 @@ body {
   border-color: #127ba3;
   border-bottom-width: 4px;
 }
+.job-list .label-row .label {
+  margin-right: 1em;
+  margin-left: 0;
+}

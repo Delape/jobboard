@@ -20,16 +20,19 @@ const JobListingRow = React.createClass({
     );
   },
 
-  _render_tags(tag_names) {
-        return tag_names.map((tag_name) => {
-            <span className="label label-default">{tag_name}</span>
-        });
+  _renderJobtags(job) {
+        return (
+          <div className="label-row">
+            {job.tags.map(tag => {
+                return <span className="label label-info" key={tag.id}>{tag.name}</span>
+            })}
+          </div>
+        );
+
   },
 
   render() {
     let job = this.props.job;
-    let tag_names = this.props.tag_names || [];
-
     let job_category;
     if (job.category && settings.DISPLAY_CATEGORIES) {
         job_category = config.jobs.categories[job.category];
@@ -48,7 +51,7 @@ const JobListingRow = React.createClass({
             </div>
             <span className="job-company">{ job.company_name }</span>
             <h4 className="media-heading">{ job.title }</h4>
-            {this._render_tags(tag_names)}
+            {this._renderJobtags(job)}
           </div>
         </div>
       </a>
@@ -57,4 +60,3 @@ const JobListingRow = React.createClass({
 });
 
 module.exports = JobListingRow;
-
