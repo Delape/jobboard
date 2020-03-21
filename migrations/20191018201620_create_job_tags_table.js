@@ -4,6 +4,7 @@ exports.up = function(knex, Promise) {
     t.integer('job_id').index().references('id').inTable('jobs').onDelete('CASCADE');
     t.integer('tag_id').index().references('id').inTable('tags').onDelete('CASCADE');
     t.dateTime('dt_created').notNull();
+    t.unique(['job_id', 'tag_id']);
   });
 };
 
