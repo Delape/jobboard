@@ -27,10 +27,14 @@ function _formatForApi(results) {
 function allActive() {
   let now = new Date();
 
-  return knex(TABLE_NAME)
-    .where('dt_expires', '>=', now)
-    .andWhere('is_live', true)
-    .orderBy('dt_expires', 'desc')
+  return knex('jobs_tags')
+    .select(knex.raw('jobs.*, json_agg(json_build_object(\'id\', tags.id, \'name\', tags.name)) as tags'))
+    .innerJoin('jobs', 'jobs.id', 'jobs_tags.job_id')
+    .innerJoin('tags', 'tags.id', 'jobs_tags.tag_id')
+    .where('jobs.dt_expires', '>=', now)
+    .andWhere('jobs.is_live', true)
+    .groupBy('jobs.id')
+    .orderBy('jobs.dt_expires', 'desc')
     .then(_formatForApi);
 }
 
@@ -349,4 +353,4 @@ function del(id) {
   });
 }
 
-module.exports = { allActive, allInactive, approve, findById, findByUserId, findInactiveByUserId, getJobTags, getJobTagNames, create, update, del };
+module.exports = { allActive, allInactive, approve, findById, findByUserId, findInactiveByUserId, getJobTags, getJobTagNames, getAllTags, create, update, del };
